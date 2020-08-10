@@ -1,20 +1,58 @@
-using System.IO;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Box.Models;
 
 namespace Box
 {
-  public class Program
+  public class Startup
   {
-    public static void Main(string[] args)
-      {
-      var host = new WebHostBuilder()
-        .UseKestrel()
-        .UseContentRoot(Directory.GetCurrentDirectory())
-        .UseIISIntegration()
-        .UseStartup<Startup>()
-        .Build();
+    public Startup(IHostingEnvironment env)
+    {
+      var builder = new ConfigurationBuilder()
+          .SetBasePath(env.ContentRootPath)
+          .AddJsonFile("appsettings.json");
+      Configuration = builder.Build();
+    }
 
-      host.Run();
+    public IConfigurationRoot Configuration { get; set; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services.AddMvc();
+
+      services.AddEntityFrameworkMySql()
+        .AddDbContext<BoxContext>(options => options
+        .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
+
+      services.AddIdentity<User, IdentityRole>()
+        .AddEntityFrameworkStores<BoxContext>()
+        .AddDefaultTokenProviders();
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+      app.UseStaticFiles();
+
+      app.UseDeveloperExceptionPage();
+
+      app.UseAuthentication();
+
+      app.UseMvc(routes =>
+      {
+        routes.MapRoute(
+          name: "default",
+          template: "{controller=Home}/{action=Index}/{id?}");
+      });
+
+      app.Run(async (context) =>
+      {
+        await context.Response.WriteAsync("Something went wrong!");
+      });
     }
   }
 }

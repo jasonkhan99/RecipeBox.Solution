@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Box.Moees;
+@model List<Box.Models.Recipe>;
+
+<h1>Recipes</h1>
+
+@if (@Model.Count == 0)
+{
+  <h3>No recipes have been added yet!</h3>
+}
+
+@foreach (Recipe recipe in Model)
+{
+  <li>@Html.ActionLink($"{")
+}

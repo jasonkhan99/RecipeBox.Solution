@@ -23,8 +23,44 @@ namespace Box.Controllers
 
     public ActionResult Create()
     {
-      ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");
+      ViewBag.RecipeId = new SelectList(_db.Recipes, "RecipeId", "RecName");
       return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Ingredient ingredient, int RecipeId)
+    {
+      _db.Ingredients.Add(ingredient);
+      if (RecipeId != 0)
+      {
+        _db.RecipeIngredient.Add(new RecipeIngredient() { RecipeId = RecipeId, IngredientId = ingredient.IngredientId });
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Details(int id)
+    {
+      var thisIngredient = _db.Ingredients
+          .Include(ingredient => ingredient.Recipes)
+          .ThenInclude(join => join.Recipe)
+          .FirstOrDefault(ingredient => ingredient.IngredientId == id);
+      return View(thisIngredient);
+    }
+
+    public ActionResult Delete(int id)
+    {
+      var thisIngredient = _db.Ingredients.FirstOrDefault(ingredients => ingredients.IngredientId == id);
+      return View(thisIngredient);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      var thisIngredient = _db.Ingredients.FirstOrDefault(ingredients => ingredients.IngredientId == id);
+      _db.Ingredients.Remove(thisIngredient);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

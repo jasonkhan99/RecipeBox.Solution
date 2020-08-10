@@ -37,6 +37,7 @@ namespace Box.Controllers
     {
       var thisMealType = _db.MealTypes
       .Include(mealType => mealType.Recipes)
+      .ThenInclude(join => join.Recipe)
       .FirstOrDefault(mealType => mealType.MealTypeId == id);
       return View(thisMealType);
     }

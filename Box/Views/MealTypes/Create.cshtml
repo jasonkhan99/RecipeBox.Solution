@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.MealType
+
+<h3>Add a new meal type</h2>
+
+@using (Html.BeginForm())
+{
+  @Html.Label("Meal Type")
+  @Html.TextBoxFor(model => Model.Name)
+
+<input type="submit" class="btn-primary">
+}

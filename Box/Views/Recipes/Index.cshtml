@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-@using Box.Moees;
+@using Box.Models;
 @model List<Box.Models.Recipe>;
 
 <h1>Recipes</h1>
@@ -14,5 +14,8 @@
 
 @foreach (Recipe recipe in Model)
 {
-  <li>@Html.ActionLink($"{")
+  <li>@Html.ActionLink($"{recipe.RecName}", "Details", new {id = recipe.RecipeId})</li>
 }
+
+<p>@Html.ActionLink("Add new recipe", "Create")</p>
+<p>@Html.Actionlink("Back Home", "Index", "Home")</p>

@@ -5,17 +5,15 @@ namespace Box.Models
 
   public class Ingredient
   {
+    public Ingredient()
+    {
+      this.Recipes = new HashSet<RecipeIngredient>();
+    }
     public int IngredientId { get; set; }
 
     public string Name { get; set; }
 
     public float Quantity { get; set; }
-
-    public Ingerdient(int ingredientId, string name, float quantity)
-    {
-      IngredientId = ingredientId;
-      Name = name;
-      Quantity = Quantity;
-    }
+    public ICollection<RecipeIngredient> Recipes { get; set; }
   }
 }

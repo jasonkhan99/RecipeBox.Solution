@@ -5,9 +5,9 @@ using System.IO;
 
 namespace Box.Models
 {
-  public class BoxContextBox : IDesignTimeDbContextBox<BoxContext>
+  public class BoxContextFactory : IDesignTimeDbContextFactory<BoxContext>
   {
-    BoxContext IDesignTimeDbContextBox<BoxContext>.CreateDbContext(string[] args)
+    BoxContext IDesignTimeDbContextFactory<BoxContext>.CreateDbContext(string[] args)
     {
       IConfigurationRoot configuration = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())

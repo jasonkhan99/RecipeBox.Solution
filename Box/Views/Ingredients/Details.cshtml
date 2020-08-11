@@ -1,0 +1,16 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.Ingredient
+
+<h3>@Model.Name Details</h3>
+
+<h2>QTY: @Model.Quantity</h2>
+<h2>Preparation: @Model.Prep</h2>
+
+<hr />
+<p>@Html.ActionLink("Back to Recipe", "Details", @Model.Recipes.Rec)</p>
+<p>@Html.ActionLink("Edit Ingredient", "Edit", new { id = Model.IngredientId })</p>
+<p>@Html.ActionLink("Delete Meal Type", "Delete", new { id = Model.IngredientId })</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

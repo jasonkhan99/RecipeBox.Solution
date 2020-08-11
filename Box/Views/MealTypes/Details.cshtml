@@ -1,0 +1,25 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.MealType
+
+<h3>Meal Type Details</h3>
+<hr />
+<h4>Recipes:</h4>
+@if (Model.Recipes.Count == 0)
+{
+  <p>This meal type does not contain any recipes.</p>
+}
+else
+{
+  foreach(var join in Model.Recipes)
+  {
+    <p>@Html.ActionLink($"{@join.Recipe.RecName}", "Details", "Recipes", new { id = join.Recipe.RecipeId })
+  }
+}
+<hr />
+<p>@Html.ActionLink("Back to Meal Types", "Index")</p>
+<p>@Html.ActionLink("Edit Meal Type", "Edit", new { id = Model.MealTypeId })</p>
+<p>@Html.ActionLink("Delete Meal Type", "Delete", new { id = Model.MealTypeId })</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

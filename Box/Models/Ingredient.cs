@@ -14,6 +14,7 @@ namespace Box.Models
     public string Name { get; set; }
 
     public float Quantity { get; set; }
+    public string Prep { get; set; }
     public ICollection<RecipeIngredient> Recipes { get; set; }
   }
 }

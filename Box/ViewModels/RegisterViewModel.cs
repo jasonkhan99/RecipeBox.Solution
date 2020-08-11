@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ToDoList.ViewModels
+namespace Box.ViewModels
 {
   public class RegisterViewModel
   {
@@ -17,6 +17,6 @@ namespace ToDoList.ViewModels
     [DataType(DataType.Password)]
     [Display(Name = "Confirm Password")]
     [Compare("Password", ErrorMessage = "Password and Confirmation Do Not Match")]
-    public string ConfrimPassword { get; set; }
+    public string ConfirmPassword { get; set; }
   }
 }

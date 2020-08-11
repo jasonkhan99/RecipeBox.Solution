@@ -1,0 +1,27 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.Ingredient
+
+<h3>Edit @Model.Name</h3>
+<hr />
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.IngredientId)
+  <div class="form-group">
+    @Html.LabelFor(model => model.Name)
+    @Html.EditorFor(model => model.Name)
+
+    @Html.LabelFor(model => model.Quantity)
+    @Html.EditorFor(model => model.Quantity)
+
+    @Html.LabelFor(model => model.Prep)
+    @Html.EditorFor(model => model.Prep)
+  </div>
+  <input type="submit" value="Edit" class="btn btn-default"/>
+}
+<hr />
+<p>@Html.ActionLink("Back to Ingredient Details", "Details", new { id = Model.IngredientId })</p>
+<p>@Html.ActionLink("Back to Ingredients", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

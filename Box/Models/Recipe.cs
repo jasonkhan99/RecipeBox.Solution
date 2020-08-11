@@ -13,6 +13,7 @@ public class Recipe {
   public string RecDesc { get; set; }
   public string RecInst { get; set; }
   public decimal RecRating { get; set; }
+  public virtual User User { get; set; }
   public virtual ICollection<RecipeIngredient> Ingredients { get; set; } 
   public ICollection<MealTypeRecipe> MealTypes { get; set; }
   }

@@ -3,14 +3,16 @@ using System;
 using Box.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Box.Migrations
 {
     [DbContext(typeof(BoxContext))]
-    partial class BoxContextModelSnapshot : ModelSnapshot
+    [Migration("20200811185504_PrepColumn")]
+    partial class PrepColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,11 +78,7 @@ namespace Box.Migrations
 
                     b.Property<decimal>("RecRating");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("RecipeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -271,13 +269,6 @@ namespace Box.Migrations
                         .WithMany("MealTypes")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Box.Models.Recipe", b =>
-                {
-                    b.HasOne("Box.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Box.Models.RecipeIngredient", b =>

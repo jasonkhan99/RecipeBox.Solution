@@ -1,0 +1,13 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.MealType
+
+<h3>Are you sure you want to delete @Model.Name?</h3>
+@using (Html.BeginForm())
+{
+  <input type="submit" value="delete"/>
+}
+<p>@Html.ActionLink("Back to Meal Types", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

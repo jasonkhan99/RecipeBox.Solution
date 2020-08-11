@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.MealType
+
+<h3>Edit @Model.Name</h3>
+<hr />
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.MealTypeId)
+  <div class="form-group">
+    @Html.LabelFor(model => model.Name)
+    @Html.EditorFor(model => model.Name, new { @class="form-control" })
+  </div>
+  <input type="submit" value="Edit" class="btn btn-default"/>
+}
+<hr />
+<p>@Html.ActionLink("Back to Meal Types Details", "Details", new { id = Model.MealTypeId })</p>
+<p>@Html.ActionLink("Back to Meal Types", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

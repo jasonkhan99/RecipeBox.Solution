@@ -2,6 +2,18 @@
   Layout = "_Layout";
 }
 
-@model Box.Models.Ingredient
+@using Box.Models;
+@model List<Box.Models.MealType>;
 
-
+<h3>Meal Types</h3>
+@if (Model.Count == 0)
+{
+  <p>No Meal Types have been added yet.</p>
+}
+@foreach (MealType mealType in Model)
+{
+  <p>@Html.ActionLink($"{mealType.Name}", "Details", new { id = mealType.MealTypeId })</p>
+}
+<hr />
+<p>@Html.ActionLink("Add new Meal Type", "Create")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

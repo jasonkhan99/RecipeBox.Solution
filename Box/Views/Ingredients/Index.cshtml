@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Box.Models;
+@model List<Box.Models.Ingredient>;
+
+<h3>Meal Types</h3>
+@if (Model.Count == 0)
+{
+  <p>No ingredients have been added yet.</p>
+}
+@foreach (Ingredient ingredient in Model)
+{
+  <p>@Html.ActionLink($"{ingredient.Name}", "Details", new { id = ingredient.IngredientId })</p>
+}
+<hr />
+<p>@Html.ActionLink("Add new ingredient", "Create")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

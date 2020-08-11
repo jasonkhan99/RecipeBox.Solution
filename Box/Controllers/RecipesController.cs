@@ -4,21 +4,30 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Box.Controllers
 {
+  [Authorize]
   public class RecipesController : Controller
   {
     private readonly BoxContext _db;
-    public RecipesController(BoxContext db)
+    private readonly UserManager<User> _userManager;
+    public RecipesController(BoxContext db, UserManager<User> userManager)
     {
+      _userManager = userManager;
       _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Recipe> model = _db.Recipes.ToList();
-      return View(model);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userRecipes);
     }
 
     public ActionResult Create()
@@ -28,8 +37,11 @@ namespace Box.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Recipe recipe)
+    public async Task<ActionResult> Create(Recipe recipe)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      recipe.User = currentUser;
       _db.Recipes.Add(recipe);
       _db.SaveChanges();
       return RedirectToAction("Index");
@@ -44,6 +56,24 @@ namespace Box.Controllers
           .ThenInclude(join => join.Ingredient)
         .FirstOrDefault(recipe => recipe.RecipeId == id);
         return View(thisRecipe);
+    }
+
+    public ActionResult AddIngredients(int id)
+    {
+      var thisRecipe = _db.Recipes.FirstOrDefault(recipes => recipes.RecipeId == id);
+      ViewBag.IngredientId = new SelectList(_db.Ingredients, "IngredientId", "Name");
+      return View(thisRecipe);
+    }
+
+    [HttpPost]
+    public ActionResult AddIngredients(Recipe recipe, int IngredientId)
+    {
+      if (IngredientId != 0)
+      {
+        _db.RecipeIngredient.Add(new RecipeIngredient() {IngredientId = IngredientId, RecipeId = recipe.RecipeId});
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
     public ActionResult Delete (int id)
     {

@@ -1,5 +1,5 @@
 @{
-  Layout = "_Layout"
+  Layout = "_Layout";
 }
 
 @model Box.Models.MealType
@@ -10,8 +10,8 @@
 {
   @Html.HiddenFor(model => model.MealTypeId)
   <div class="form-group">
-    @Html.Labelfor(model => model.Name)
-    @Html.EditorFor(model => model.Name)
+    @Html.LabelFor(model => model.Name)
+    @Html.EditorFor(model => model.Name, new { @class="form-control" })
   </div>
   <input type="submit" value="Edit" class="btn btn-default"/>
 }

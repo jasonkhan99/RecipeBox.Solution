@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Box.Models.Recipe
+
+<h2>@Html.DisplayFor(model => model.RecName)</h2>
+
+<h4>Add ingredients and instructions for this recipe</h4>
+
+@using(Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.RecipeId)
+
+  @Html.Label("Ingredient")
+  @Html.TextBox("Name")
+
+  @Html.Label("Quantity")
+  @Html.TextBox("Quantity")
+
+  @Html.Label("Preparation")
+  @Html.TextBox("Prep")
+
+  @Html.LabelFor(model => model.RecInst)
+  @Html.TextAreaFor(model => model.RecInst)
+}
+
+<p>@Html.ActionLink("Back to recipes", "Index")</p>

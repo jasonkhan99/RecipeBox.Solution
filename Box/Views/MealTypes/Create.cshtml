@@ -4,12 +4,15 @@
 
 @model Box.Models.MealType
 
-<h3>Add a new meal type</h3>
-
+<h3>Add a New Meal Type</h3>
+<hr />
 @using (Html.BeginForm())
 {
-  @Html.Label("Meal Type")
-  @Html.TextBoxFor(model => Model.Name)
-
-<input type="submit" class="btn-primary">
+  <div class="form-group">
+    @Html.Label("Meal Type")
+    @Html.TextBoxFor(model => Model.Name, new { @class="form-control" })
+  </div>
+<input type="submit" value="Add Meal Type" class="btn btn-primary"/>
 }
+<hr />
+<p>@Html.ActionLink("Back to Meal Types", "Index")</p>

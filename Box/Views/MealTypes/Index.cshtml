@@ -12,7 +12,7 @@
 }
 @foreach (MealType mealType in Model)
 {
-  <p>@Html.ActionLink($"{mealType.Name}", "Details", new { id = mealType.MealTypeId })
+  <p>@Html.ActionLink($"{mealType.Name}", "Details", new { id = mealType.MealTypeId })</p>
 }
 <hr />
 <p>@Html.ActionLink("Add new Meal Type", "Create")</p>

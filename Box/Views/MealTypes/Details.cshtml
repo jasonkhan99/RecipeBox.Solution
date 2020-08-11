@@ -4,7 +4,7 @@
 
 @model Box.Models.MealType
 
-<h3>Meal Type Details</h3>
+<h3>@Model.Name Details</h3>
 <hr />
 <h4>Recipes:</h4>
 @if (Model.Recipes.Count == 0)
@@ -15,7 +15,7 @@ else
 {
   foreach(var join in Model.Recipes)
   {
-    <p>@Html.ActionLink($"{@join.Recipe.RecName}", "Details", "Recipes", new { id = join.Recipe.RecipeId })
+    <p>@Html.ActionLink($"{@join.Recipe.RecName}", "Details", "Recipes", new { id = join.Recipe.RecipeId })</p>
   }
 }
 <hr />

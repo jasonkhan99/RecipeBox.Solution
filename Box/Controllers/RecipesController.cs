@@ -45,6 +45,24 @@ namespace Box.Controllers
         .FirstOrDefault(recipe => recipe.RecipeId == id);
         return View(thisRecipe);
     }
+    
+    public ActionResult AddInst(int id)
+    {
+      var thisRecipe = _db.Recipes.FirstOrDefault(recipes => recipes.RecipeId == id);
+      ViewBag.IngredientId = new SelectList(_db.Ingredients, "IngredientId", "Name");
+      return View(thisRecipe);
+    }
+
+    [HttpPost]
+    public ActionResult AddInst(Recipe recipe, int IngredientId)
+    {
+      if (IngredientId != 0)
+      {
+        _db.RecipeIngredient.Add(new RecipeIngredient() {IngredientId = IngredientId, RecipeId = recipe.RecipeId});
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
     public ActionResult Delete (int id)
     {
       var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);

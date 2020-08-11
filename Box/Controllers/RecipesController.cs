@@ -45,8 +45,8 @@ namespace Box.Controllers
         .FirstOrDefault(recipe => recipe.RecipeId == id);
         return View(thisRecipe);
     }
-    
-    public ActionResult AddInst(int id)
+
+    public ActionResult AddIngredients(int id)
     {
       var thisRecipe = _db.Recipes.FirstOrDefault(recipes => recipes.RecipeId == id);
       ViewBag.IngredientId = new SelectList(_db.Ingredients, "IngredientId", "Name");
@@ -54,12 +54,12 @@ namespace Box.Controllers
     }
 
     [HttpPost]
-    public ActionResult AddInst(Recipe recipe, int IngredientId)
+    public ActionResult AddIngredients(Recipe recipe, string Name, string Quantity, string Preparation)
     {
-      if (IngredientId != 0)
-      {
-        _db.RecipeIngredient.Add(new RecipeIngredient() {IngredientId = IngredientId, RecipeId = recipe.RecipeId});
-      }
+      Ingredient newIngredient = new Ingredient() {Name, Quantity, Preparation};
+      _db.Ingredients.Add(newIngredient);
+      _db.SaveChanges();
+      _db.RecipeIngredient.Add(new RecipeIngredient() {IngredientId = newIngredient.IngredientId, RecipeId = recipe.RecipeId});
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

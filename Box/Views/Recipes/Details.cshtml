@@ -6,19 +6,22 @@
 
 <h2>@Html.DisplayFor(model => model.RecName)</h2>
 <br>
-<br>
 @foreach (var join in Model.MealTypes)
 {
   <h3>@join.MealType.Name</h3>
 }
 <br>
-<br>
 <h4>@Html.DisplayFor(model => model.RecDesc)</h4>
 <br>
+@foreach (var join in Model.Ingredients)
+{
+  <h4>Qty: @join.Ingredient.Quantity x @join.Ingredient.Name: @join.Ingredient.Prep</h4>
+}
+
 <br>
 <h5>@Html.DisplayFor(model => model.RecInst)</h5>
 <br>
-<br>
 
-@Html.ActionLink("Add Instructions and Ingredients", "AddInst")
-@Html.ActionLink("Back to recipes", "Index")
+@Html.ActionLink("Add Ingredients", "AddIngredients")
+@Html.ActionLink("Delete Recipe", "Delete", new { id = Model.RecipeId })
+@Html.ActionLink("Back to Recipes", "Index")

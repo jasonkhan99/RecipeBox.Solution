@@ -54,12 +54,12 @@ namespace Box.Controllers
     }
 
     [HttpPost]
-    public ActionResult AddIngredients(Recipe recipe, string Name, string Quantity, string Preparation)
+    public ActionResult AddIngredients(Recipe recipe, int IngredientId)
     {
-      Ingredient newIngredient = new Ingredient() {Name, Quantity, Preparation};
-      _db.Ingredients.Add(newIngredient);
-      _db.SaveChanges();
-      _db.RecipeIngredient.Add(new RecipeIngredient() {IngredientId = newIngredient.IngredientId, RecipeId = recipe.RecipeId});
+      if (IngredientId != 0)
+      {
+        _db.RecipeIngredient.Add(new RecipeIngredient() {IngredientId = IngredientId, RecipeId = recipe.RecipeId});
+      }
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

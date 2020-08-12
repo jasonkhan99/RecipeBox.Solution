@@ -4,15 +4,18 @@
 
 @model Box.Models.Ingredient
 
-<h3>Add a new ingredient</h3>
+<h3>Add a new ingredient to @ViewBag.Recipe</h3>
 
 @using (Html.BeginForm())
 {
-  @Html.Label("Ingredient")
-  @Html.TextBoxFor(model => Model.Name)
+  <div class="form-group">
+    @Html.Label("Ingredient")
+    @Html.TextBoxFor(model => Model.Name, new { @class="form-control" })
+  </div>
+  <div class="form-group">
+    @Html.Label("Quantity")
+    @Html.TextBoxFor(model => Model.Quantity, new { @class="form-control" })
+  </div>
 
-  @Html.Label("Quantity")
-  @Html.TextBoxFor(model => Model.Quantity)
-
-  <input type="submit" class="btn-primary">
+  <input type="submit" class="btn btn-primary">
 }

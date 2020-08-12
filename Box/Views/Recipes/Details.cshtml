@@ -3,6 +3,9 @@
 }
 
 @model Box.Models.Recipe
+@using System.Security.Claims
+
+<p>Hello @User.Identity.Name!</p>
 
 <h2>@Html.DisplayFor(model => model.RecName)</h2>
 <br>
@@ -22,6 +25,7 @@
 <h5>@Html.DisplayFor(model => model.RecInst)</h5>
 <br>
 
-@Html.ActionLink("Add Ingredients", "AddIngredients")
+<hr />
+@Html.ActionLink("Add Ingredients", "Create", "Ingredients", new { id = Model.RecipeId })
 @Html.ActionLink("Delete Recipe", "Delete", new { id = Model.RecipeId })
 @Html.ActionLink("Back to Recipes", "Index")

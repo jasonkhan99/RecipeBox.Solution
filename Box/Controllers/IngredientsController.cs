@@ -21,9 +21,9 @@ namespace Box.Controllers
       return View(_db.Ingredients.ToList());
     }
 
-    public ActionResult Create()
+    public ActionResult Create(int id)
     {
-      ViewBag.RecipeId = new SelectList(_db.Recipes, "RecipeId", "RecName");
+      ViewBag.Recipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
       return View();
     }
 
@@ -31,12 +31,12 @@ namespace Box.Controllers
     public ActionResult Create(Ingredient ingredient, int RecipeId)
     {
       _db.Ingredients.Add(ingredient);
-      if (RecipeId != 0)
-      {
-        _db.RecipeIngredient.Add(new RecipeIngredient() { RecipeId = RecipeId, IngredientId = ingredient.IngredientId });
-      }
+      // if (RecipeId != 0)
+      // {
+      //   _db.RecipeIngredient.Add(new RecipeIngredient() { RecipeId = RecipeId, IngredientId = ingredient.IngredientId });
+      // }
       _db.SaveChanges();
-      return RedirectToAction("Index");
+      return RedirectToAction("AddIngredients", "Recipes");
     }
 
     public ActionResult Details(int id)

@@ -11,7 +11,6 @@ using System.Security.Claims;
 
 namespace Box.Controllers
 {
-  [Authorize]
   public class RecipesController : Controller
   {
     private readonly BoxContext _db;
@@ -22,14 +21,12 @@ namespace Box.Controllers
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userRecipes);
+      List<Recipe> recipes = _db.Recipes.ToList();
+      return View(recipes);
     }
-
+    [Authorize]
     public ActionResult Create()
     {
       ViewBag.MealTypeId = new SelectList(_db.MealTypes, "MealTypeId", "Name");
@@ -37,12 +34,16 @@ namespace Box.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Recipe recipe)
+    public async Task<ActionResult> Create(Recipe recipe, int MealTypeId)
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       recipe.User = currentUser;
       _db.Recipes.Add(recipe);
+      if (MealTypeId != 0)
+      {
+        _db.MealTypeRecipes.Add(new MealTypeRecipe() { MealTypeId = MealTypeId, RecipeId = recipe.RecipeId });
+      }
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -51,11 +52,16 @@ namespace Box.Controllers
     {
       var thisRecipe = _db.Recipes
         .Include(recipe => recipe.MealTypes)
-          .ThenInclude(join => join.MealType)
-        .Include(recipe => recipe.Ingredients)
-          .ThenInclude(join => join.Ingredient)
+        .ThenInclude(join => join.MealType)
+        // .Include(recipe => recipe.Ingredients)
+        // .ThenInclude(join => join.Ingredient)
         .FirstOrDefault(recipe => recipe.RecipeId == id);
-        return View(thisRecipe);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      if (userId != null)
+      {
+        ViewBag.IsCurrentUser = userId;
+      }
+      return View(thisRecipe);
     }
 
     public ActionResult AddIngredients(int id)
@@ -75,9 +81,17 @@ namespace Box.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-    public ActionResult Delete (int id)
+    [Authorize]
+    public async Task<ActionResult> Delete(int id)
     {
-      var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+
+      Recipe thisRecipe = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).FirstOrDefault(recipes => recipes.RecipeId == id);
+      if (thisRecipe == null)
+      {
+        return RedirectToAction("Details", new { id = id });
+      }
       return View(thisRecipe);
     }
 

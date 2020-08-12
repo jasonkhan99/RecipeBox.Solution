@@ -6,6 +6,7 @@ using Box.ViewModels;
 
 namespace Box.Controllers
 {
+  
   public class AccountController : Controller
   {
     private readonly BoxContext _db;

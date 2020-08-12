@@ -33,17 +33,17 @@ namespace Box.Controllers
       _db.Ingredients.Add(ingredient);
       if (RecipeId != 0)
       {
-        _db.RecipeIngredient.Add(new RecipeIngredient() { RecipeId = RecipeId, IngredientId = ingredient.IngredientId });
+        _db.RecipeIngredient.Add(new RecipeIngredient() {RecipeId = RecipeId, IngredientId = ingredient.IngredientId});
       }
       _db.SaveChanges();
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", "Recipes", new { id = RecipeId });
     }
 
     public ActionResult Details(int id)
     {
       var thisIngredient = _db.Ingredients
-          .Include(ingredient => ingredient.Recipes)
-          .ThenInclude(join => join.Recipe)
+          // .Include(ingredient => ingredient.Recipes)
+          // .ThenInclude(join => join.Recipe)
           .FirstOrDefault(ingredient => ingredient.IngredientId == id);
       return View(thisIngredient);
     }

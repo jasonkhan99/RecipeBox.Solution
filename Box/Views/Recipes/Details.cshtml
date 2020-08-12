@@ -3,6 +3,10 @@
 }
 
 @model Box.Models.Recipe
+@using Box.Models
+@using System.Security.Claims
+
+<p>Hello @User.Identity.Name!</p>
 
 <h2>@Html.DisplayFor(model => model.RecName)</h2>
 <br>
@@ -13,15 +17,16 @@
 <br>
 <h4>@Html.DisplayFor(model => model.RecDesc)</h4>
 <br>
-@foreach (var join in Model.Ingredients)
+@foreach (Ingredient ingredient in Model.Ingredients)
 {
-  <h4>Qty: @join.Ingredient.Quantity x @join.Ingredient.Name: @join.Ingredient.Prep</h4>
+  <h4>Qty: @ingredient.Quantity x @ingredient.Name: @ingredient.Prep</h4>
 }
 
 <br>
 <h5>@Html.DisplayFor(model => model.RecInst)</h5>
 <br>
 
-@Html.ActionLink("Add Ingredients", "AddIngredients")
+<hr />
+@Html.ActionLink("Add Ingredients", "Create", "Ingredients", new { id = Model.RecipeId })
 @Html.ActionLink("Delete Recipe", "Delete", new { id = Model.RecipeId })
 @Html.ActionLink("Back to Recipes", "Index")

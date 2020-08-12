@@ -3,6 +3,7 @@
 }
 
 @model Box.Models.Recipe
+@using Box.Models
 @using System.Security.Claims
 
 <p>Hello @User.Identity.Name!</p>
@@ -16,9 +17,9 @@
 <br>
 <h4>@Html.DisplayFor(model => model.RecDesc)</h4>
 <br>
-@foreach (var join in Model.Ingredients)
+@foreach (Ingredient ingredient in Model.Ingredients)
 {
-  <h4>Qty: @join.Ingredient.Quantity x @join.Ingredient.Name: @join.Ingredient.Prep</h4>
+  <h4>Qty: @ingredient.Quantity x @ingredient.Name: @ingredient.Prep</h4>
 }
 
 <br>

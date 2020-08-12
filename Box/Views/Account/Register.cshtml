@@ -10,15 +10,15 @@
 {
   <div class="form-group">
     @Html.Label("Email Address")
-    @Html.TextBoxFor(user => user.Email, new { @class="form-control" })
+    @Html.TextBoxFor(user => user.Email, new { @class="form-control", required=true })
   </div>
   <div class="form-group">
-    @Html.Label("Password")
-    @Html.TextBoxFor(user => user.Password, new { @class="form-control", @type="password" })
+    @Html.Label("Password - must have 6 characters, a capital letter, a number, and a symbol")
+    @Html.TextBoxFor(user => user.Password, new { @class="form-control", @type="password", required=true })
   </div>
   <div class="form-group">
     @Html.Label("Confirm Password")
-    @Html.TextBoxFor(user => user.ConfirmPassword, new { @class="form-control", @type="password" })
+    @Html.TextBoxFor(user => user.ConfirmPassword, new { @class="form-control", @type="password", required=true })
   </div>
   <input type="submit" value="Sign Up" class="btn btn-default"/>
 }

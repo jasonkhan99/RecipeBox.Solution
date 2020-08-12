@@ -53,8 +53,8 @@ namespace Box.Controllers
       var thisRecipe = _db.Recipes
         .Include(recipe => recipe.MealTypes)
         .ThenInclude(join => join.MealType)
-        .Include(recipe => recipe.Ingredients)
-        .ThenInclude(join => join.Ingredient)
+        // .Include(recipe => recipe.Ingredients)
+        // .ThenInclude(join => join.Ingredient)
         .FirstOrDefault(recipe => recipe.RecipeId == id);
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       if (userId != null)
